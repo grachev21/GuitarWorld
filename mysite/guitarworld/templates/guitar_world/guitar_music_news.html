@@ -1,0 +1,13 @@
+{% extends 'guitar_world/base.html' %}
+
+
+
+{% block content %}
+{% for p in post %}
+    <h3>{{p.title}}</h3>
+    <a href="{{p.link}}">
+    <img src="{{p.photo_link}}" alt="">
+    </a>
+    <p class="description">{{p.description|linebreaks|truncatewords:30}}</p>
+{% endfor %}
+{% endblock %}

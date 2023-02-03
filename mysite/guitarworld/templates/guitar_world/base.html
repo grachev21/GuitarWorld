@@ -1,0 +1,24 @@
+{% load static %}
+{% load worldTag %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="{% static 'guitarworld/css/style.css' %}">
+    <title>{{title}}</title>
+</head>
+<body> 
+    
+    <!-- Меню заголовок из включающего тега 
+    Передаем переменную selected из функции представления -->
+    {% header_menu selected %}
+    
+    {% block search %}
+    {% endblock %}
+
+    {% block content %}
+    {% endblock %}
+    
+</body>
+</html>

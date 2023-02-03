@@ -1,0 +1,9 @@
+<div class="header">
+    {% for m in menu %}
+        {% if selected == m.title %}
+            <b><a href="{% url m.url_name %}">{{m.title}}</a></b>
+        {% else %}
+            <a href="{% url m.url_name %}">{{m.title}}</a>
+        {% endif %}
+    {% endfor %}
+</div>

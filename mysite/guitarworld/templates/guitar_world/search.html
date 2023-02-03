@@ -1,0 +1,13 @@
+{% extends 'guitar_world/base.html' %}
+
+
+{% block search %}
+asdfasdf
+<h1>{{title}}</h1>
+
+<form action="{% url 'search_articles' %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Поиск</button>
+</form>
+{% endblock %}

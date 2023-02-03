@@ -1,0 +1,11 @@
+{% extends 'guitar_world/base.html' %}
+
+
+{% block content %}
+    <h1>{{post.title}}</h1>
+    {% if post.photo %}
+        <p><img src="{{post.photo.url}}" alt="" class="photo"></p>
+    {% endif %}
+    <p>{{post.content|linebreaks}}</p>
+    <p>{{post.time_update}}</p>
+{% endblock %}

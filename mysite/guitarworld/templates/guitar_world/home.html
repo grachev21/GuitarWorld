@@ -1,0 +1,9 @@
+{% extends 'guitar_world/base.html' %}
+
+{% block content %}
+    {% for p in post %}
+        <h1>{{p.title}}</h1>
+        <p>{{p.content|linebreaks|truncatewords:30}}</p>
+        <a href="{{p.get_absolute_url}}">Читать пост</a>
+    {% endfor %}
+{% endblock %}

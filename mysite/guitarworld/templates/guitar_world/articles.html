@@ -1,0 +1,49 @@
+{% extends 'guitar_world/base.html' %}
+
+{% block search %}
+asdfasdf
+<h1>{{title}}</h1>
+
+<form action="{% url 'search_articles' %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Поиск</button>
+</form>
+{% endblock %}
+
+{% block content %}
+        <div class="category">
+            {% for c in cats %}
+                {% if selected == c.slug %}
+                    <b><a href="{{c.get_absolute_url}}">{{c.type}}</a></b>
+        
+                {% else %}
+                    <a href="{{c.get_absolute_url}}">{{c.type}}</a>
+                {% endif %} 
+            {% endfor %}
+        
+            {% if selected == check %}
+                <b> <a href="{% url 'articles' %}">Все категории</a> </b>
+            {% else %}
+                <a href="{% url 'articles' %}">Все категории</a>
+            {% endif %}
+        </div>
+    <div class="articles">
+        {% for p in post %}
+            <div class="time_cat">
+                <div class="line">
+                    <p>
+                        Категория - {{p.type}}
+                        Дата {{p.time_update}}
+                    </p>
+                </div>
+            </div>
+            <h1>{{p.title}}</h1>
+                <div class="photo">
+                    <img src="{{p.photo.url}}" alt="">
+                </div>
+            <p>{{p.content|linebreaks|truncatewords:30}}</p>
+            <a href="{{p.get_absolute_url}}">Читать пост</a>
+        {% endfor %}
+    </div>
+{% endblock %}
