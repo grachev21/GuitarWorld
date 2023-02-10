@@ -1,7 +1,8 @@
 {% extends 'guitar_world/base.html' %}
+{% load worldTag %}
 
 {% block search %}
-asdfasdf
+
 <h1>{{title}}</h1>
 
 <form action="{% url 'search_articles' %}" method="post">
@@ -12,22 +13,9 @@ asdfasdf
 {% endblock %}
 
 {% block content %}
-        <div class="category">
-            {% for c in cats %}
-                {% if selected == c.slug %}
-                    <b><a href="{{c.get_absolute_url}}">{{c.type}}</a></b>
-        
-                {% else %}
-                    <a href="{{c.get_absolute_url}}">{{c.type}}</a>
-                {% endif %} 
-            {% endfor %}
-        
-            {% if selected == check %}
-                <b> <a href="{% url 'articles' %}">Все категории</a> </b>
-            {% else %}
-                <a href="{% url 'articles' %}">Все категории</a>
-            {% endif %}
-        </div>
+
+    {% menu_categories selected check %}
+
     <div class="articles">
         {% for p in post %}
             <div class="time_cat">

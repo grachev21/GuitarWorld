@@ -16,5 +16,8 @@ def header_menu(selected):
     
     
 
-
+@register.inclusion_tag('tag_templates/menu_categories.html')
+def menu_categories(selected, check):
+    cats = Category_articles.objects.all() 
+    return {'cats': cats, 'selected': selected, 'check': check}
 

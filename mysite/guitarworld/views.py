@@ -1,8 +1,9 @@
+from django.http import HttpResponseNotFound
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
-from django.http import HttpResponse 
-from django.http import HttpResponseNotFound
+
+from django.views.generic import ListView
 
 from .models import Guitar_post
 from .models import Youtube_news
@@ -10,25 +11,36 @@ from .models import Category_articles
 from .templatetags.worldTag import menu
 
 from .forms import Search_form
+from .forms import Add_article
 
 
-def home(request):
-    post = Guitar_post.objects.all()
-    context = {
-            'post': post,
-            'title': 'Домашняя страница',
-            'selected': menu[0]['title']
-            }
-    return render(request, 'guitar_world/home.html', context=context)
+# def home(request):
+#     post = Guitar_post.objects.all()
+#     context = {
+#             'post': post,
+#             'title': 'Домашняя страница',
+#             'selected': menu[0]['title']
+#             }
+#     return render(request, 'guitar_world/home.html', context=context)
 
-# Отображает категории
+class Home(ListView):
+    model = Guitar_post
+    template_name = 'guitar_world/home.html'
+    context_object_name = 'post'
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['selected'] = menu[0]['title']
+        context['title'] = 'GuitarWorld'
+        return context
+
+
+# Отображает категорий
 def show_category(request, cat_slug):
-    cats = Category_articles.objects.all()
     post = Guitar_post.objects.filter(type__slug=cat_slug)
-    print(cat_slug)
+
     context = {
-            'post': post,
-            'cats': cats,
+            'post': post,        
+            # 'cats': cats,
             'title': 'Домашняя страница',
             'selected': cat_slug
             }
@@ -46,31 +58,56 @@ def read_article(request, read_slug):
     }
     return render(request, 'guitar_world/read_article.html', context=context)
 
+# Заморозил!
 def search_articles(request):
-    form = Search_form()
+    post = None
+    id_value = []
+    if request.method=='POST':
+        form = Search_form(request.POST) 
+        if form.is_valid():
+            search_result = form.cleaned_data
+            result = search_result['value']
+            print('До поиск - ', result)
+
+            post =  Guitar_post.objects.get(title=result)
+            print(post)
+    else:
+        form = Search_form()
+
     context = {
+        'post':post,
+        'id_value': id_value,
         'title': 'Результат поиска',
         'form': form
     }
     return render(request, 'guitar_world/search.html', context=context)
 
+
 def articles(request):
-    form = Search_form()
+
     post = Guitar_post.objects.all()
     cats = Category_articles.objects.all()
     check = 'Статьи'
-    context = {
-            'form': form,
-            'post': post,
-            'cats': cats,
-            'check': check,
-            'title': 'Статьи',
-            'selected': menu[1]['title']
-               }
+
+    context = {'post': post,
+               'cats': cats,
+               'check': check,
+               'title': 'Статьи',
+               'selected': menu[1]['title']}
+
     return render(request, 'guitar_world/articles.html', context=context)
 
 def add_article(request):
+    if request.method == 'POST':
+        form = Add_article(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('home')
+    else:
+        form = Add_article()
+            
     context = {
+            'form': form,
             'title': 'Добавить статью',
             'selected': menu[2]['title']
             }

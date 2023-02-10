@@ -1,6 +1,6 @@
 from django.urls import path
 
-from guitarworld.views import home
+from guitarworld.views import Home
 from guitarworld.views import articles
 from guitarworld.views import add_article
 from guitarworld.views import guitar_music_news
@@ -11,7 +11,7 @@ from guitarworld.views import search_articles
 
 
 urlpatterns = [
-        path('', home, name='home'),
+        path('', Home.as_view(), name='home'),
         path('articles/', articles, name='articles'),
         path('add_article/', add_article, name='add_article'),
         path('guitar_music_news/', guitar_music_news, name='guitar_music_news'),
