@@ -53,16 +53,6 @@ class ReadArticle(DetailView):
         context['title'] = context['post']
         return context
 
-# # Читает статью
-# def read_article(request, read_slug):
-#     post = get_object_or_404(Guitar_post, slug=read_slug)
-#     context = {
-#         'post': post,
-#         'title': 'Статья',
-#         'selected': menu[0]['title']
-#     }
-#     return render(request, 'guitar_world/read_article.html', context=context)
-
 # Заморозил!
 def search_articles(request):
     post = None
@@ -85,22 +75,20 @@ def search_articles(request):
         'title': 'Результат поиска',
         'form': form
     }
-    return render(request, 'guitar_world/search.html', context=context)
-
-
-def articles(request):
-
-    post = Guitar_post.objects.all()
-    cats = Category_articles.objects.all()
-    check = 'Статьи'
-
-    context = {'post': post,
-               'cats': cats,
-               'check': check,
-               'title': 'Статьи',
-               'selected': menu[1]['title']}
-
     return render(request, 'guitar_world/articles.html', context=context)
+
+class Articles(ListView):
+    model = Guitar_post
+    template_name = 'guitar_world/articles.html'
+    context_object_name = 'post'
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['check'] = 'Статьи'
+        context['title'] = 'Статьи'
+        context['selected'] = menu[1]['title']
+        return context
+
 
 def add_article(request):
     if request.method == 'POST':
