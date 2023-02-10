@@ -4,6 +4,7 @@ from django.shortcuts import redirect
 from django.shortcuts import get_object_or_404
 
 from django.views.generic import ListView
+from django.views.generic import DetailView
 
 from .models import Guitar_post
 from .models import Youtube_news
@@ -41,16 +42,26 @@ class ShowCategory(ListView):
         return context
 
 
+class ReadArticle(DetailView):
+    model = Guitar_post
+    template_name = 'guitar_world/read_article.html'
+    slug_url_kwarg = 'read_slug'    
+    context_object_name = 'post'
 
-# Читает статью
-def read_article(request, read_slug):
-    post = get_object_or_404(Guitar_post, slug=read_slug)
-    context = {
-        'post': post,
-        'title': 'Статья',
-        'selected': menu[0]['title']
-    }
-    return render(request, 'guitar_world/read_article.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = context['post']
+        return context
+
+# # Читает статью
+# def read_article(request, read_slug):
+#     post = get_object_or_404(Guitar_post, slug=read_slug)
+#     context = {
+#         'post': post,
+#         'title': 'Статья',
+#         'selected': menu[0]['title']
+#     }
+#     return render(request, 'guitar_world/read_article.html', context=context)
 
 # Заморозил!
 def search_articles(request):
