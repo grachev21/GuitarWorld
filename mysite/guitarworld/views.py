@@ -5,6 +5,7 @@ from django.shortcuts import get_object_or_404
 
 from django.views.generic import ListView
 from django.views.generic import DetailView
+from django.views.generic import CreateView
 
 from .models import Guitar_post
 from .models import Youtube_news
@@ -90,21 +91,16 @@ class Articles(ListView):
         return context
 
 
-def add_article(request):
-    if request.method == 'POST':
-        form = Add_article(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('home')
-    else:
-        form = Add_article()
-            
-    context = {
-            'form': form,
-            'title': 'Добавить статью',
-            'selected': menu[2]['title']
-            }
-    return render(request, 'guitar_world/add_article.html', context=context)
+class AddArticle(CreateView):
+    form_class = Add_article
+    template_name = 'guitar_world/add_article.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Добавить статью'
+        context['selected'] = menu[2]['title']
+        return context
+
 
 class GuitarMusicNews(ListView):
     model = Youtube_news
