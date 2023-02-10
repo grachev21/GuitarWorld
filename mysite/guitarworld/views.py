@@ -117,24 +117,16 @@ class GuitarMusicNews(ListView):
         context['selected'] = menu[3]['title']
         return context
 
+class Registration(ListView):
+    model = Guitar_post
+    template_name = 'guitar_world/registration.html'
+    context_object_name = 'post'
 
-
-# def guitar_music_news(request):
-#     post = Youtube_news.objects.all()
-#     context = {
-#             'post': post,
-#             'title': 'Новости гитарной музыки',
-#             'selected': menu[3]['title']
-
-#             }
-    # return render(request, 'guitar_world/guitar_music_news.html', context=context)
-
-def registration(request):
-    context = {
-            'title': 'Регистрация',
-            'selected': menu[4]['title']
-            }
-    return render(request, 'guitar_world/registration.html', context=context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Регистрация'
+        context['selected'] = menu[4]['title']
+        return context
 
 def pageNotFound(request, exception):
     return HttpResponseNotFound('Страница не найдена')
