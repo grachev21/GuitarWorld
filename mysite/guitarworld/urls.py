@@ -3,7 +3,7 @@ from django.urls import path
 from guitarworld.views import Home
 from guitarworld.views import Articles
 from guitarworld.views import add_article
-from guitarworld.views import guitar_music_news
+from guitarworld.views import GuitarMusicNews
 from guitarworld.views import registration
 from guitarworld.views import ReadArticle
 from guitarworld.views import ShowCategory
@@ -14,7 +14,7 @@ urlpatterns = [
         path('', Home.as_view(), name='home'),
         path('articles/', Articles.as_view(), name='articles'),
         path('add_article/', add_article, name='add_article'),
-        path('guitar_music_news/', guitar_music_news, name='guitar_music_news'),
+        path('guitar_music_news/', GuitarMusicNews.as_view(), name='guitar_music_news'),
         path('registration/', registration, name='registration'),
         path('search/', search_articles, name='search_articles'),
         
