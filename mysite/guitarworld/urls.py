@@ -6,7 +6,7 @@ from guitarworld.views import add_article
 from guitarworld.views import guitar_music_news
 from guitarworld.views import registration
 from guitarworld.views import read_article
-from guitarworld.views import show_category
+from guitarworld.views import ShowCategory
 from guitarworld.views import search_articles
 
 
@@ -21,5 +21,5 @@ urlpatterns = [
         # Читать статью
         path('read/<slug:read_slug>/', read_article, name='read_article'),
         # Отобразить категорию
-        path('category/<slug:cat_slug>/', show_category, name='show_category'),
+        path('category/<slug:type_slug>/', ShowCategory.as_view(), name='show_category'),
         ]

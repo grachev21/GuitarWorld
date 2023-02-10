@@ -14,15 +14,6 @@ from .forms import Search_form
 from .forms import Add_article
 
 
-# def home(request):
-#     post = Guitar_post.objects.all()
-#     context = {
-#             'post': post,
-#             'title': 'Домашняя страница',
-#             'selected': menu[0]['title']
-#             }
-#     return render(request, 'guitar_world/home.html', context=context)
-
 class Home(ListView):
     model = Guitar_post
     template_name = 'guitar_world/home.html'
@@ -33,20 +24,23 @@ class Home(ListView):
         context['title'] = 'GuitarWorld'
         return context
 
+class ShowCategory(ListView):
+    model = Guitar_post
+    template_name = 'guitar_world/articles.html'
+    context_object_name = 'post'
+    allow_empty = False
 
-# Отображает категорий
-def show_category(request, cat_slug):
-    post = Guitar_post.objects.filter(type__slug=cat_slug)
+    def get_queryset(self):
+        return Guitar_post.objects.filter(type__slug=self.kwargs['type_slug'])
+    
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Категория - ' + str(context['post'][0].type) 
+        context['selected'] = context['post'][0].type_id
+        print(str(context['post'][0].type_id))
+        return context
 
-    context = {
-            'post': post,        
-            # 'cats': cats,
-            'title': 'Домашняя страница',
-            'selected': cat_slug
-            }
-    print(context['selected'])
- 
-    return render(request, 'guitar_world/articles.html', context=context)
+
 
 # Читает статью
 def read_article(request, read_slug):

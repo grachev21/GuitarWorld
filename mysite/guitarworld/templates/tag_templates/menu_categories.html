@@ -1,6 +1,6 @@
 <div class="category">
     {% for c in cats %}
-        {% if selected == c.slug %}
+        {% if selected == c.pk%}
             <b><a href="{{c.get_absolute_url}}">{{c.type}}</a></b>
 
         {% else %}

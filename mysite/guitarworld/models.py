@@ -10,7 +10,7 @@ class Category_articles(models.Model):
         return self.type
 
     def get_absolute_url(self):
-        return reverse('show_category', kwargs={'cat_slug': self.slug})
+        return reverse('show_category', kwargs={'type_slug': self.slug})
 
     class Meta:
         verbose_name = 'Тип статьи'
